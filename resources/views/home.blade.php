@@ -1,23 +1,23 @@
 @include('layouts.header')
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var cards = document.querySelectorAll('.card');
+{{--<script>--}}
+{{--    document.addEventListener("DOMContentLoaded", function () {--}}
+{{--        var cards = document.querySelectorAll('.card');--}}
 
-        cards.forEach(function (card) {
-            card.addEventListener('click', function () {
-                // クリックされたカードのアイテムIDなどを取得
-                // home内data-item_ad-id 属性を使ってアイテムIDを取得する
-                var itemId = card.getAttribute('data-item-id');
+{{--        cards.forEach(function (card) {--}}
+{{--            card.addEventListener('click', function () {--}}
+{{--                // クリックされたカードのアイテムIDなどを取得--}}
+{{--                // home内data-item-id 属性を使ってアイテムIDを取得する--}}
+{{--                var itemId = card.getAttribute('data-item-id');--}}
 
-                // アイテムページにリダイレクト
-                window.location.href = '/item/' + itemId;
-                //取得したアイテムIDを使って、アイテムページにリダイレクトします。
-                // '/item_ad/' + itemId は、リダイレクト先のURLを構築しています。
-            });
-        });
-    });
-</script>
+{{--                // アイテムページにリダイレクト--}}
+{{--                window.location.href = '/item/' + itemId;--}}
+{{--                //取得したアイテムIDを使って、アイテムページにリダイレクトします。--}}
+{{--                // '/item/' + itemId は、リダイレクト先のURLを構築しています。--}}
+{{--            });--}}
+{{--        });--}}
+{{--    });--}}
+{{--</script>--}}
 
 {{--/body--}}
 {{--/TOPimg--}}
@@ -40,21 +40,20 @@
 <div class="container">
     <div class="row">
         <div class="row justify-content-around">
-        <div class="card col-12  col-md my-6  mx-4 py-3 my-5" data-item-id="1">
-            <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top"  alt="...">
-            <div class="card-body">
-                <h5 class="card-title">商品名</h5>
-                <p class="card-text">￥2000</p>
+            @foreach($items->take(2) as $item)
+            <div class="card col-12  col-md my-6  mx-4 py-3 my-5">
+                <a href="{{route('item.show', $item)}}" class="text-blue-600">
+                <img src="{{ asset('storage/'.$item->itemImages[0]->image_name) }}" class="card-img-top"  alt="...">
+
+                <div class="card-body">
+                    <h5 class="card-title"> {{ $item->title }}</h5>
+                    <p class="card-text">{{$item->price }}</p>
+                </div>
+                </a>
             </div>
+
+            @endforeach
         </div>
-        <div class="card col-12  col-md my-6  mx-4 py-3 my-5 " data-item-id="2">
-            <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top"  alt="...">
-            <div class="card-body">
-                <h5 class="card-title">商品名</h5>
-                <p class="card-text">￥2000</p>
-            </div>
-        </div>
-    </div>
     </div>
 </div>
 
@@ -69,70 +68,29 @@
     </div>
 </div>
 
-        <div class="container">
-<div class="row">
-        <div class="row justify-content-around">
+    <div class="container">
+        <div class="row">
+            <div class="row justify-content-around">
+                @foreach($items->slice(2) as $item)
 
-            <div class="card col-4  col-md-3 my-4 mx-1" style="width: 18rem; padding-top: 10px;">
-                <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top"  　alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">商品名</h5>
-                    <p class="card-text">￥2000</p>
+                <div class="card col-4  col-md-3 my-4 mx-1"  style="width: 18rem; padding-top: 10px;">
+                    <a href="{{route('item.show', $item)}}" class="text-blue-600">
+
+                    <img src="{{ asset('storage/'.$item->itemImages[0]->image_name) }}" class="card-img-top"  　alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"> {{ $item->title }}</h5>
+                        <p class="card-text">{{$item->price }}</p>
+                    </div>
+                    </a>
                 </div>
+
+
+                @endforeach
             </div>
-            <div class="card col-4   col-md-3 my-4 mx-1" style="width: 18rem; padding-top: 10px;">
-                <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top" 　alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">商品名</h5>
-                    <p class="card-text">￥2000</p>
-                </div>
-            </div>
-            <div class="card col-4   col-md-3 my-4 mx-1" style="width: 18rem; padding-top: 10px;">
-                <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top"  　alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">商品名</h5>
-                    <p class="card-text">￥2000</p>
-                </div>
-            </div>
-            <div class="card col-4   col-md-3 my-4 mx-1" style="width: 18rem; padding-top: 10px;">
-                <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top" 　alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">商品名</h5>
-                    <p class="card-text">￥2000</p>
-                </div>
-            </div>
-            <div class="card col-4  col-md-3 my-4 mx-1" style="width: 18rem; padding-top: 10px;">
-                <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top"  　alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">商品名</h5>
-                    <p class="card-text">￥2000</p>
-                </div>
-            </div>
-            <div class="card col-4   col-md-3 my-4 mx-1" style="width: 18rem; padding-top: 10px;">
-                <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top" 　alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">商品名</h5>
-                    <p class="card-text">￥2000</p>
-                </div>
-            </div>
-            <div class="card col-4   col-md-3 my-4 mx-1" style="width: 18rem; padding-top: 10px;">
-                <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top"  　alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">商品名</h5>
-                    <p class="card-text">￥2000</p>
-                </div>
-            </div>
-            <div class="card col-4   col-md-3 my-4 mx-1" style="width: 18rem; padding-top: 10px;">
-                <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top" 　alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">商品名</h5>
-                    <p class="card-text">￥2000</p>
-                </div>
-            </div>
-        </div>
         </div>
 
 
-        </div>
+    </div>
 
-@include('layouts.footer')
+
+    @include('layouts.footer')

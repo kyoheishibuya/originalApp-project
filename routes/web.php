@@ -6,7 +6,6 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ItemController;
-use App\Http\Controllers\ItemAdController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 /*
@@ -62,9 +61,9 @@ Route::resource('post',PostController::class);
 //Route::delete('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 
 require __DIR__.'/auth.php';
-Route::get('/item/{id}', [ItemController::class, 'item'])->name('item');
+//Route::get('/item/{id}', [ItemController::class, 'item'])->name('item');
 
-Route::resource('item_ad',ItemAdController::class);
+Route::resource('item',ItemController::class);
 
 Route::get('/cart', [CartController::class, 'cart'])->name('cart');
 Route::get('/order', [OrderController::class, 'order'])->name('order');

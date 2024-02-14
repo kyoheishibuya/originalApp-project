@@ -41,7 +41,7 @@
                             </li>
                             <li><a class="dropdown-item" href="#">管理者情報変更</a></li>
                             <li><a class="dropdown-item" href="#">注文状況一覧</a></li>
-                            <li><a class="dropdown-item" href="{{ route('item_ad.index') }}">商品一覧</a></li>
+                            <li><a class="dropdown-item" href="{{ route('item.index') }}">商品一覧</a></li>
                         @endauth
 
                     </ul>

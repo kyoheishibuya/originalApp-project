@@ -1,26 +1,17 @@
 @include('layouts.header')
 
-<script>
-    function addToCart() {
-        // カートにアイテムを追加するロジックを追加することもできます
-
-        // カートページにリダイレクト
-        window.location.href = '{{ route('cart') }}';
-    }
-</script>
 
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-6 md-5">
-            <img src="{{asset('img/hero/banner.jpg')}}" class="card-img-top"  　alt="...">
+            <img src="{{asset('storage/'.$item->itemImages[0]->image_name) }}" class="card-img-top"  　alt="...">
         </div>
-
         <div class="col-12 col-md-6 md-2">
-        <div class="col">
-            <div class="mb-2 h2">商品名item</div>
-            <div class="mb-2">概要概要概要概要概要概要概要概要概要概要概要概要概要概要概要概要概要概要概要概要概概要概要概</div>
-            <div class="mb-2 h3">価格</div>
-            <div class="mb-2">消費税</div>
+            <div class="col">
+                <div class="mb-2 h2"> {{ $item->title }}</div>
+                <div class="mb-2"> {{ $item->description }}</div>
+                <div class="mb-2 h3">￥ {{ $item->price }}</div>
+                <div class="mb-2">消費税込み</div>
 
                 <div class="row">
 
@@ -44,4 +35,3 @@
 </div>
 
 @include('layouts.footer')
-

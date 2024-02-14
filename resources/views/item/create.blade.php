@@ -3,7 +3,7 @@
 
 
 <div class="container">
-    <form method="post" action="{{ route('item_ad.store') }}" enctype="multipart/form-data">
+    <form method="post" action="{{ route('item.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-12 col-md-6 md-5">
@@ -16,7 +16,7 @@
 
             <div class="col">
                 <div class="mb-3 col">
-                    <label for="title" class="form-label">商品名1</label>
+                    <label for="title" class="form-label">商品名</label>
                     <input type="text" class="form-control" name="title">
                 </div>
 
