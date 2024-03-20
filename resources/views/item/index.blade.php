@@ -47,16 +47,6 @@
         </div>
     </div>
 
-{{--    <script>--}}
-{{--        function redirectToCreate() {--}}
-{{--            window.location.href = "{{ route('item.create') }}";--}}
-{{--        }--}}
-{{--        --}}{{--function redirectToEdit(itemId) {--}}
-{{--        --}}{{--    window.location.href = "{{ route('item.edit', ['item' => ':id']) }}".replace(':id', itemId);--}}
-{{--        --}}{{--}--}}
-{{--        --}}{{--function redirectToDestroy(itemId) {--}}
-{{--        --}}{{--    window.location.href = "{{ route('item.destroy', ['item' => ':id']) }}".replace(':id', itemId);--}}
-{{--        --}}{{--}--}}
-{{--    </script>--}}
+
 @endforeach
 @include('layouts.footer')

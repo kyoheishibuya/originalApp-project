@@ -65,5 +65,21 @@ require __DIR__.'/auth.php';
 
 Route::resource('item',ItemController::class);
 
-Route::get('/cart', [CartController::class, 'cart'])->name('cart');
-Route::get('/order', [OrderController::class, 'order'])->name('order');
+Route::get('/cart', [CartController::class, 'allcart'])->name('cart');
+//Route::get('/order', [OrderController::class, 'order'])->name('order');
+Route::resource('order',OrderController::class);
+Route::get('/order_search', [OrderController::class, 'search'])->name('order.search');;
+Route::post('/order_shipping/{id}', [OrderController::class, 'shipping_update'])->name('shipping_update');
+//Route::view('/no-cartList', 'items/no_cart_list')->name('noCartlist');
+//Route::view('/purchaseCompleted', 'items/purchase_completed');
+//Route::resource('cartlist', 'ItemController', ['only' => ['index']]);
+//Route::post('itemInfo/addCart/cartListRemove', 'ItemController@remove')->name('itemRemove');
+//Route::post('itemInfo/addCart', 'ItemController@addCart')->name('addcart.post');
+//Route::post('itemInfo/addCart/orderFinalize', 'ItemController@store')->name('orderFinalize');
+
+//Route::post('/addcart', 'CartController@addcart')->name('addcart');
+Route::post('/addcart', [CartController::class, 'addcart'])->name('addcart');
+Route::delete('/removecart/{item}', [CartController::class, 'removecart'])->name('removecart');
+Route::post('/update-session', [CartController::class, 'updatecart'])->name('updatecart');;
+
+

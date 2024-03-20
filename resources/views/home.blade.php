@@ -1,5 +1,4 @@
 @include('layouts.header')
-
 {{--<script>--}}
 {{--    document.addEventListener("DOMContentLoaded", function () {--}}
 {{--        var cards = document.querySelectorAll('.card');--}}
