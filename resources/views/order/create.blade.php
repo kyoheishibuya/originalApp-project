@@ -8,11 +8,15 @@
      $cartData = session('cartData') ?? []; // カートデータが存在しない場合は空の配列を代入
      $delivery = is_array($cartData) && count($cartData) > 0 ? 1000 : 0; // カートデータがある場合は送料を加算
 @endphp
-
+@include('payment.index')
 <div class="container py-5">
     @if(count($cartData) > 0)
-    <form action="{{ route('order.store') }}" method="POST" class="d-inline">
-        @csrf
+{{--        クレジット決済字の送信--}}
+        @if(old('payment_method') == '1')
+            @include('payment.index')
+        @else
+    <form action="{{ route('processPayment') }}" method="POST" class="d-inline">
+        @endif
 
 {{--$cartDataは複数のアイテムがある場合がある為、$indexで区分けして 変数$itemに入れる--}}
         @foreach($cartData as $index => $item)
@@ -38,6 +42,19 @@
             <div class="col-md-12 col-lg-8">
                 <div class="container">
                     <div class="row">
+                        <div class="mb-3 col-12">
+                            <label for="payment" class="form-label">支払い方法の選択</label>
+                            <select class="form-select" id="payment" name="payment_method" aria-describedby="paymentMethodHelp">
+                                <option selected>選択して下さい</option>
+                                <option value="1" {{ old('payment_method') == '1' ? 'selected' : '' }}>クレジットカード</option>
+                                <option value="2" {{ old('payment_method') == '2' ? 'selected' : '' }}>銀行振込</option>
+                                <option value="3" {{ old('payment_method') == '3' ? 'selected' : '' }}>代引き</option>
+                            </select>
+                            <div id="paymentMethodHelp" class="form-text">必須</div>
+                            @error('payment_method')
+                            <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="mb-3 col-6">
                             <label for="last_name" class="form-label">姓</label>
                             <input type="text" class="form-control" id="last_name" name="last_name" value="{{ old('last_name') }}" aria-describedby="Help">
@@ -157,19 +174,7 @@
                             <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="mb-3 col-12">
-                            <label for="payment" class="form-label">支払い方法の選択</label>
-                            <select class="form-select" id="payment" name="payment_method" aria-describedby="paymentMethodHelp">
-                                <option selected>選択して下さい</option>
-                                <option value="1" {{ old('payment_method') == '1' ? 'selected' : '' }}>クレジットカード</option>
-                                <option value="2" {{ old('payment_method') == '2' ? 'selected' : '' }}>銀行振込</option>
-                                <option value="3" {{ old('payment_method') == '3' ? 'selected' : '' }}>代引き</option>
-                            </select>
-                            <div id="paymentMethodHelp" class="form-text">必須</div>
-                            @error('payment_method')
-                            <div class="text-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -193,6 +198,7 @@
                         <div class="col py-3 text-right">￥{{ $totalPrice+$delivery }}</div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-12 py-3">
                         <button type="submit" class="btn btn-success">購入</button>
@@ -205,16 +211,31 @@
                             ご確認の上、注文をしてください。</div>
                     </div>
                 </div>
+
             </div>
 
         </div>
+        @csrf
     </form>
     @else
         商品がありません。
     @endif
+
+{{--    stripeデモ--}}
+{{--        <script async--}}
+{{--                src="https://js.stripe.com/v3/buy-button.js">--}}
+{{--        </script>--}}
+
+{{--        <stripe-buy-button--}}
+{{--            buy-button-id="buy_btn_1OxPVC08OiW90vNnM6pPPWYI"--}}
+{{--            publishable-key="pk_test_51OwLSy08OiW90vNnBA4sNnIEj8ZOX2WzsiSKFShW6Vf4F8MR4mXkMVVcDKJbGOGGiHZFLqcArLmEQB4iexAWpbiE00aoZQO97Z"--}}
+{{--        >--}}
+{{--        </stripe-buy-button>--}}
 </div>
+<div id="payment-info" data-amount="{{ $totalPrice + $delivery }}"></div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+    // 検索
     $(document).ready(function() {
         $('#address_search').click(function() {
             var postCode = $('#post_address').val().replace(/-/g, ''); // ハイフンを除去して正確な検索を可能にする
@@ -238,6 +259,44 @@
             }
         });
     });
+
+        document.addEventListener('DOMContentLoaded', function () {
+        var form = document.querySelector('form');
+        var paymentSelect = document.getElementById('payment');
+
+        form.addEventListener('submit', function (e) {
+        // クレジットカードが選択されているか確認
+        if (paymentSelect.value === '1') {
+        // フォームのデフォルトの送信を防ぎます
+        e.preventDefault();
+
+        var handler = StripeCheckout.configure({
+        key: 'pk_test_51OwLSy08OiW90vNnBA4sNnIEj8ZOX2WzsiSKFShW6Vf4F8MR4mXkMVVcDKJbGOGGiHZFLqcArLmEQB4iexAWpbiE00aoZQO97Z',
+        locale: 'auto',
+        token: function(token) {
+        // トークンをサーバーに送信
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        // フォームを送信
+        form.submit();
+    }
+    });
+
+            var amount = document.getElementById('payment-info').dataset.amount;
+
+            handler.open({
+                name: 'サイト名',
+                description: '購入の説明',
+                amount: amount
+            });
+    }
+    });
+    });
+
 </script>
 
 @include('layouts.footer')

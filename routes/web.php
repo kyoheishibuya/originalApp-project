@@ -70,6 +70,7 @@ Route::get('/cart', [CartController::class, 'allcart'])->name('cart');
 Route::resource('order',OrderController::class);
 Route::get('/order_search', [OrderController::class, 'search'])->name('order.search');;
 Route::post('/order_shipping/{id}', [OrderController::class, 'shipping_update'])->name('shipping_update');
+Route::post('/charge_test', [OrderController::class, 'processPayment'])->name('processPayment');
 //Route::view('/no-cartList', 'items/no_cart_list')->name('noCartlist');
 //Route::view('/purchaseCompleted', 'items/purchase_completed');
 //Route::resource('cartlist', 'ItemController', ['only' => ['index']]);

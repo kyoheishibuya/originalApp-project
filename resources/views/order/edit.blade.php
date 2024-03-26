@@ -62,6 +62,7 @@
             <option value="2" {{ $order->delivery_status == 2 ? 'selected' : '' }}>銀行振り込み</option>
             <option value="3" {{ $order->delivery_status == 3 ? 'selected' : '' }}>代引き</option>
         </select>
+
     </div>
         </div>
         <div class="mb-3">
